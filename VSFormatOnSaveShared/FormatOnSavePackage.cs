@@ -222,8 +222,8 @@ namespace Tinyfish.FormatOnSave
                 if (OptionsPage.EnableUnifyEndOfFile && OptionsPage.AllowDenyUnifyEndOfFileFilter.IsAllowed(document.Name))
                     UnifyEndOfFile(wpfTextView);
 
-                if (OptionsPage.EnableForceUtf8WithBom && OptionsPage.AllowDenyForceUtf8WithBomFilter.IsAllowed(document.Name))
-                    ForceUtf8WithBom(wpfTextView);
+                if (OptionsPage.EnableForceUtf8 && OptionsPage.AllowDenyForceUtf8WithBomFilter.IsAllowed(document.Name))
+                    ForceUtf8WithBom(wpfTextView, OptionsPage.EnableEncodingUtf8WithBom);
 
                 // Caret stay in new line but keep old column.
                 vsTextView.GetCaretPos(out var newCaretLine, out _);
@@ -468,15 +468,27 @@ namespace Tinyfish.FormatOnSave
             }
         }
 
-        private static void ForceUtf8WithBom(ITextView wpfTextView)
+        private static readonly Encoding utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
+
+        private static void ForceUtf8WithBom(ITextView wpfTextView, bool withBom)
         {
             try
             {
                 wpfTextView.TextDataModel.DocumentBuffer.Properties.TryGetProperty(typeof(ITextDocument),
                     out ITextDocument textDocument);
 
-                if (textDocument.Encoding.EncodingName != Encoding.UTF8.EncodingName)
-                    textDocument.Encoding = Encoding.UTF8;
+                var result = withBom ? Encoding.UTF8 : utf8NoBom;
+                if (textDocument.Encoding is UTF8Encoding curEncoding)
+                {
+                    if (!curEncoding.Equals(result))
+                    {
+                        textDocument.Encoding = result;
+                    }
+                }
+                else
+                {
+                    textDocument.Encoding = result;
+                }
             }
             catch (Exception)
             {

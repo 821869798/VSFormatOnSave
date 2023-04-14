@@ -150,7 +150,7 @@ namespace Tinyfish.FormatOnSave
                   || (_package.OptionsPage.EnableUnifyLineBreak && _package.OptionsPage.AllowDenyUnifyLineBreakFilter.IsAllowed(item.Name))
                   || (_package.OptionsPage.EnableUnifyEndOfFile && _package.OptionsPage.AllowDenyUnifyEndOfFileFilter.IsAllowed(item.Name))
                   || (_package.OptionsPage.EnableTabToSpace && _package.OptionsPage.AllowDenyTabToSpaceFilter.IsAllowed(item.Name))
-                  || (_package.OptionsPage.EnableForceUtf8WithBom && _package.OptionsPage.AllowDenyForceUtf8WithBomFilter.IsAllowed(item.Name)))
+                  || (_package.OptionsPage.EnableForceUtf8 && _package.OptionsPage.AllowDenyForceUtf8WithBomFilter.IsAllowed(item.Name)))
                )
                 return;
 

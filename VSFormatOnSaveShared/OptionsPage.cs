@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
@@ -63,7 +63,7 @@ namespace Tinyfish.FormatOnSave
         [Category("Format document")]
         [DisplayName("Denied extensions for FormatDocument only")]
         [Description("Denied extensions for FormatDocument only. Space separated list. For example: .cs .html .cshtml .vb")]
-        public string DenyFormatDocumentExtentions { get; set; } = "";
+        public string DenyFormatDocumentExtentions { get; set; } = ".shader .hlsl .cginc";
 
         public AllowDenyDocumentFilter AllowDenyFormatDocumentFilter;
 
@@ -78,12 +78,12 @@ namespace Tinyfish.FormatOnSave
         [Category("Line break")]
         [DisplayName("Enable UnifyLineBreak")]
         [Description("Enable UnifyLineBreak.")]
-        public bool EnableUnifyLineBreak { get; set; } = false;
+        public bool EnableUnifyLineBreak { get; set; } = true;
 
         [Category("Line break")]
         [DisplayName("Line break style")]
         [Description("Line break style.")]
-        public LineBreakStyle LineBreak { get; set; } = LineBreakStyle.Windows;
+        public LineBreakStyle LineBreak { get; set; } = LineBreakStyle.Unix;
 
         [Category("Line break")]
         [DisplayName("Allowed extensions for UnifyLineBreak only")]
@@ -93,7 +93,7 @@ namespace Tinyfish.FormatOnSave
         [Category("Line break")]
         [DisplayName("Denied extensions for UnifyLineBreak only")]
         [Description("Denied extensions for UnifyLineBreak only. Space separated list. For example: .cs .html .cshtml .vb")]
-        public string DenyUnifyLineBreakExtensions { get; set; } = "";
+        public string DenyUnifyLineBreakExtensions { get; set; } = ".csv .bat .cmd .ps1";
 
         public AllowDenyDocumentFilter AllowDenyUnifyLineBreakFilter;
 
@@ -142,19 +142,24 @@ namespace Tinyfish.FormatOnSave
 
 
         [Category("UTF8")]
-        [DisplayName("Enable ForceUtf8WithBom")]
-        [Description("Enable ForceUtf8WithBom, force file encoding to UTF8 with BOM.")]
-        public bool EnableForceUtf8WithBom { get; set; } = false;
+        [DisplayName("Enable ForceUtf8")]
+        [Description("Enable ForceUtf8, force file encoding to UTF8.")]
+        public bool EnableForceUtf8 { get; set; } = true;
 
         [Category("UTF8")]
-        [DisplayName("Allowed extensions for ForceUtf8WithBom only")]
-        [Description("Allowed extensions for ForceUtf8WithBom only. Space separated list. For example: .cs .html .cshtml .vb")]
-        public string AllowForceUtf8WithBomExtentions { get; set; } = "";
+        [DisplayName("Encoding Utf8 with bom")]
+        [Description("Encoding Utf8 with bom")]
+        public bool EnableEncodingUtf8WithBom { get; set; } = false;
 
         [Category("UTF8")]
-        [DisplayName("Denied extensions for ForceUtf8WithBom only")]
-        [Description("Denied extensions for ForceUtf8WithBom only. Space separated list. For example: .cs .html .cshtml .vb")]
-        public string DenyForceUtf8WithBomExtentions { get; set; } = "";
+        [DisplayName("Allowed extensions for ForceUtf8")]
+        [Description("Allowed extensions for ForceUtf8. Space separated list. For example: .cs .html .cshtml .vb")]
+        public string AllowForceUtf8Extentions { get; set; } = "";
+
+        [Category("UTF8")]
+        [DisplayName("Denied extensions for ForceUtf8")]
+        [Description("Denied extensions for ForceUtf8. Space separated list. For example: .cs .html .cshtml .vb")]
+        public string DenyForceUtf8Extentions { get; set; } = ".csv .bat .cmd .ps1";
 
         public AllowDenyDocumentFilter AllowDenyForceUtf8WithBomFilter;
 
@@ -184,7 +189,7 @@ namespace Tinyfish.FormatOnSave
                 AllowTabToSpaceExtensions.Split(' '), DenyTabToSpaceExtensions.Split(' '));
 
             AllowDenyForceUtf8WithBomFilter = new AllowDenyDocumentFilter(
-                AllowForceUtf8WithBomExtentions.Split(' '), DenyForceUtf8WithBomExtentions.Split(' '));
+                AllowForceUtf8Extentions.Split(' '), DenyForceUtf8Extentions.Split(' '));
 
             OnSettingsUpdated?.Invoke(this, null);
         }
