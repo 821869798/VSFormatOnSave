@@ -6,8 +6,10 @@ Automatically format document on save. Current release includes:
 - UnifyLineBreak: Enforce line break to CRLF or LF.
 - UnifyEndOfFile: Enforce only one line break at the end of file.
 - TabToSpace: Convert tab to space.
-- ForceUtf8WithBom: Force file encoding to UTF8 with BOM.
+- ForceUtf8: Force file encoding to UTF8 with BOM,and support no Bom
 - RemoveTrailingSpaces: Remove trailing spaces. It is mostly for Visual Studio 2012 and below, which won't remove trailing spaces when formatting.
+
+<image src="img/utf-8_no_bom.png">
 
 And more:
 
