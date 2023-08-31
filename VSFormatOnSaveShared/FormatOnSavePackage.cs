@@ -141,6 +141,12 @@ namespace Tinyfish.FormatOnSave
             var documentInfo = _runningDocumentTable.GetDocumentInfo(docCookie);
             var documentPath = documentInfo.Moniker;
 
+            var activeDoc = Dte.ActiveDocument;
+            if (activeDoc.FullName == documentPath)
+            {
+                return activeDoc;
+            }
+
             foreach (Document doc in Dte.Documents)
                 if (doc.FullName == documentPath)
                     return doc;
